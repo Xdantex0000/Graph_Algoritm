@@ -120,58 +120,50 @@ namespace App
             int end = 6;
             List<Edge> edges = new List<Edge>();
             List<List<int>> listWays = new List<List<int>>();
-            CHIDA();
-            edges.Add(new Edge(1, 2));
-            edges.Add(new Edge(1, 3));
-            edges.Add(new Edge(1, 6));
-            edges.Add(new Edge(2, 3));
-            edges.Add(new Edge(2, 4));
-            edges.Add(new Edge(3, 6));
-            edges.Add(new Edge(3, 4));
-            edges.Add(new Edge(4, 5));
-            edges.Add(new Edge(5, 6));
-            //Ways(edges, start, new List<int>(), listWays);
-            //foreach (var i in listWays) Print(i, end);
+            List<string> ways = new List<string>();
+            ways = CHIDA();
+            AddEdge(ways,edges);
+            Ways(edges, start, new List<int>(), listWays);
+            foreach (var i in listWays) Print(i, end);
             Console.ReadLine();
         }
 
-        static void CHIDA()
+        static void AddEdge(List<string> ways,  List<Edge> edge)
+        {
+            foreach(string s in ways)
+            {
+                edge.Add(new Edge(Convert.ToInt32(s.Substring(0, 1)), Convert.ToInt32(s.Substring(2, 1))));
+            }
+        }
+        static List<String> CHIDA()
         {
             string path = "input.txt";
-
-            try
+            int index = -2;
+            List<string> words2 = new List<string>();
+            Console.WriteLine();
+            Console.WriteLine("Reading...");
+            using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
             {
-                Console.WriteLine();
-                Console.WriteLine("******считываем построчно********");
-                using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        //Console.WriteLine(line);
-                        String[] words = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        int i = 0;
-                        foreach (var VARIABLE in words)
+                    String[] words = line.Split(new char[] { '\n' });
+                    foreach (string s in words) {
+                        while (true)
                         {
-                            i++;
-                            if(i==2)
+                            if (index == -2) line = s;
+                            index = line.IndexOf(" ");
+                            if (index == -1) { index = -2; break; }
+                            else
                             {
-
+                                words2.Add($"{line.Substring(index - 1, 1)} {line.Substring(index + 1, 1)}");
+                                line = line.Substring(index + 1);
                             }
-                            Console.WriteLine(VARIABLE);
                         }
                     }
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-
-        static void CHIDA2(int one,int two)
-        {
-
+            return words2;
         }
     }
 }
