@@ -110,8 +110,9 @@ namespace App
                 }
                 min_size = list.Count;
                 Console.WriteLine();
+                return min_size;
             }
-            return min_size;
+            return 100;
         }
         static void Print(List<int> list, int end)
         {
