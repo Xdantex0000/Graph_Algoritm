@@ -39,15 +39,70 @@ namespace App
             List<int> one;
             List<int> two;
             InputFile(out one,out two);
-            Dekstra(9, one, two);
+            Dekstra(10, one, two);
         }
+
+        static void Dict(List<Tuple<int,int>> one)
+        {
+            List<int>[] massiv = new List<int>[one.Count];
+
+             int start = one[0].Item1; // 2
+
+
+            for (int i = 0; i < one.Count; i++)
+            {
+                massiv[i] = new List<int>();
+                massiv[i].Add(one[i].Item2);
+
+                var item = one[i].Item1;
+                
+                while (true)
+                {
+                    if (item == start)
+                    {
+                        massiv[i].Add(start);
+                        break;
+                    }
+                    else
+                    {
+                        foreach (var it in one)
+                        {
+                            if (item == it.Item2)
+                            {
+                                if(massiv[i][massiv[i].Count-1] != item)
+                                massiv[i].Add(item);
+
+                                if (it.Item1 != start)
+                                {
+                                    massiv[i].Add(it.Item1);
+                                }
+                                item = it.Item1;                        
+                            }
+                        }                     
+                    }
+                }
+            }
+            for(int i=0;i<massiv.Length;i++)
+            {
+                massiv[i].Reverse();
+                for(int j=0;j<massiv[i].Count;j++)
+                {
+                    Console.Write(massiv[i][j] + "  ");
+                }
+                Console.WriteLine();
+            }
+
+        }
+
         static void  Dekstra(int size,List<int> one,List<int> two)
         {
             int[,] a = new int[size,size];
             int[]  d = new int[size];
             int[]  v = new int[size];
-            int temp=0;
+            int temp= 0;
             int minindex, min;
+
+            List<Tuple<int,int>> dict = new List<Tuple<int,int>>();
 
             //for(int i=0;i<size;i++)
             {
@@ -64,8 +119,8 @@ namespace App
                 a[one[i]-1, two[i]-1] = 5;
                 a[two[i] - 1, one[i] - 1] = 5;
             }
-            
 
+            /*
             for(int i=0;i<a.GetLength(0);i++)
             {
                 for(int j = 0; j < a.GetLength(1);j++)
@@ -73,7 +128,8 @@ namespace App
                    Console.Write(a[i,j]+ "  ");
                 }
                Console.WriteLine();
-            }
+            }*/
+
 
             for(int i=0;i<size;i++)
             {
@@ -81,10 +137,11 @@ namespace App
                 v[i] = 1;
             }
 
-            int start = 2;
+            int start = 1;
             start--;
             d[start] = 0;
 
+            int h = 1;
             do
             {
                 minindex = 10000;
@@ -108,13 +165,18 @@ namespace App
                             if (temp < d[i])
                             {
                                 d[i] = temp;
-                                Console.WriteLine("i={0}, j={1} value={2} temp{3}", minindex + 1, i + 1, a[minindex, i],temp);
+                                //Console.WriteLine("i={0}, j={1} value={2} temp{3} h={4}", minindex + 1, i + 1, a[minindex, i],temp,h);
+                                dict.Add(Tuple.Create(minindex+1,i+1));
+
                             }
                         }
                     }
                     v[minindex] = 0;
                 }
+               h++;
             } while (minindex < 10000);
+
+            Dict(dict);
 
             //Console.WriteLine("Кратчайшие расстояние до вершин");
             for(int i=0;i<size;i++)
@@ -122,12 +184,8 @@ namespace App
             //  Console.Write(d[i] + "   ");
             }
 
-
-
-
            // Console.WriteLine("\n"+ new string('-',30));
-
-            for (int end2 = 0; end2 < size; end2++)
+            /*for (int end2 = 0; end2 < size; end2++)
             {
                 int[] ver = new int[size];
 
@@ -159,15 +217,13 @@ namespace App
                     }
 
                 }
-
-
               Console.WriteLine("Вывод кратчайшого пути");
                 for (int i = k - 1; i >= 0; i--)
                 {
                  Console.Write(ver[i] + "   ");
                 }
                 Console.WriteLine();
-            }
+            }*/
 
         }
     }
