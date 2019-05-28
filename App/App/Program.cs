@@ -33,6 +33,28 @@ namespace App
                 }
             }
         }
+        static void OutputFile(List<int>[] massiv)
+        {
+            string writePath = @"Output.txt";
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(writePath, false, System.Text.Encoding.Default))
+                {
+                    for (int i = 0; i < massiv.Length; i++)
+                    {
+                        for (int j = 0; j < massiv[i].Count; j++)
+                        {
+                            sw.Write(massiv[i][j] + " ");
+                        }
+                        sw.WriteLine();
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -46,7 +68,7 @@ namespace App
         {
             List<int>[] massiv = new List<int>[one.Count];
 
-             int start = one[0].Item1; // 2
+             int start = one[0].Item1;
 
 
             for (int i = 0; i < one.Count; i++)
@@ -91,6 +113,7 @@ namespace App
                 }
                 Console.WriteLine();
             }
+            OutputFile(massiv);
 
         }
 
@@ -175,17 +198,17 @@ namespace App
                 }
                h++;
             } while (minindex < 10000);
-
             Dict(dict);
 
-            //Console.WriteLine("Кратчайшие расстояние до вершин");
+            /*
+            Console.WriteLine("Кратчайшие расстояние до вершин");
             for(int i=0;i<size;i++)
             {
-            //  Console.Write(d[i] + "   ");
+              Console.Write(d[i] + "   ");
             }
 
-           // Console.WriteLine("\n"+ new string('-',30));
-            /*for (int end2 = 0; end2 < size; end2++)
+            Console.WriteLine("\n"+ new string('-',30));
+            for (int end2 = 0; end2 < size; end2++)
             {
                 int[] ver = new int[size];
 
