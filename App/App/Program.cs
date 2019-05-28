@@ -38,7 +38,7 @@ namespace App
             string writePath = @"Output.txt";
             try
             {
-                using (StreamWriter sw = new StreamWriter(writePath, false, System.Text.Encoding.Default))
+                using (StreamWriter sw = new StreamWriter(writePath, true, System.Text.Encoding.Default))
                 {
                     for (int i = 0; i < massiv.Length; i++)
                     {
@@ -48,6 +48,7 @@ namespace App
                         }
                         sw.WriteLine();
                     }
+                    sw.WriteLine(new string('-',50));
                 }
             }
             catch(Exception e)
@@ -58,10 +59,13 @@ namespace App
 
         static void Main(string[] args)
         {
+            int size = 10;
+            int start = 1;
             List<int> one;
             List<int> two;
             InputFile(out one,out two);
-            Dekstra(10, one, two);
+            for(int i = start;i<10;i++)
+            Dekstra(size, one, two,i);
         }
 
         static void Dict(List<Tuple<int,int>> one)
@@ -117,7 +121,7 @@ namespace App
 
         }
 
-        static void  Dekstra(int size,List<int> one,List<int> two)
+        static void  Dekstra(int size,List<int> one,List<int> two,int start)
         {
             int[,] a = new int[size,size];
             int[]  d = new int[size];
@@ -160,7 +164,6 @@ namespace App
                 v[i] = 1;
             }
 
-            int start = 1;
             start--;
             d[start] = 0;
 
